@@ -17,15 +17,17 @@ WORKDIR /app
 # Copy package.json and other configuration files
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc turbo.json entrypoint.sh ./
 
+# Optimizar la instalación de dependencias
+RUN pnpm install --frozen-lockfile --prefer-offline
+
 # Copy the rest of the application code
 COPY agent ./agent
 COPY packages ./packages
 COPY scripts ./scripts
 COPY characters ./characters
 
-# Install dependencies and build the project
-RUN pnpm install \
-    && pnpm build-docker \
+# Build with increased Node.js memory limit
+RUN NODE_OPTIONS="--max_old_space_size=600" pnpm build-docker \
     && pnpm prune --prod
 
 # Create a new stage for the final image
