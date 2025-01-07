@@ -18,7 +18,7 @@ WORKDIR /app
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc turbo.json entrypoint.sh ./
 
 # Optimizar la instalación de dependencias
-RUN pnpm install --frozen-lockfile --prefer-offline
+RUN pnpm install --no-frozen-lockfile --prefer-offline
 
 # Copy the rest of the application code
 COPY agent ./agent
