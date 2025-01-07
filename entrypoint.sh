@@ -1,0 +1,1 @@
+pnpm start --character="characters/xi.character.json"
